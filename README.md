@@ -4,7 +4,8 @@
 
 ##  Objectif et démarche du projet
 
- *Espace image – Vue générale du lab SOC*
+ *Espace image – *
+ ![Vue générale du lab SOC](SOC_Entreprise.png)
 
 L’objectif de ce projet est de **concevoir un SOC (Security Operations Center) réaliste, automatisé et 100 % open source**, proche des architectures utilisées en environnement professionnel.
 
@@ -22,7 +23,6 @@ Les principes directeurs du projet sont :
 
 ##  Pourquoi une approche 100 % open source ?
 
- *Espace image – Écosystème open source SOC*
 
 Le choix du 100 % open source répond à des enjeux à la fois **techniques, pédagogiques et professionnels** :
 
@@ -37,7 +37,9 @@ Chaque outil a été sélectionné pour **son rôle précis dans la chaîne SOC*
 
 ##  Les enjeux majeurs d’un SOC (Vision professionnelle)
 
- *Espace image – SOC en production / centre opérationnel*
+
+![SOC en production / centre opérationnel](vm_SOC.png)
+
 
 Un SOC ne sert pas uniquement à « voir » des attaques. Il répond à des **besoins métiers critiques**.
 
