@@ -4,12 +4,9 @@
 
 ##  Objectif et démarche du projet
 
- *Espace image – *
- ![Vue générale du lab SOC](SOC_Entreprise.png)
+![Vue générale du lab SOC](SOC_Entreprise.png)
 
 L’objectif de ce projet est de **concevoir un SOC (Security Operations Center) réaliste, automatisé et 100 % open source**, proche des architectures utilisées en environnement professionnel.
-
-La démarche est volontairement **méthodique, progressive et orientée métier SOC**. Le SOC est pensé non pas comme une simple juxtaposition d’outils, mais comme une **chaîne cohérente de détection, d’analyse, de décision et d’action**.
 
 Les principes directeurs du projet sont :
 
@@ -41,7 +38,8 @@ Chaque outil a été sélectionné pour **son rôle précis dans la chaîne SOC*
 ![SOC en production / centre opérationnel](vm_SOC.png)
 
 
-Un SOC ne sert pas uniquement à « voir » des attaques. Il répond à des **besoins métiers critiques**.
+
+Un SOC ne sert pas uniquement à « voir » des attaques. Il répond à des **besoins métiers**.
 
 ###  Réduction du temps de détection (MTTD)
 
@@ -67,7 +65,8 @@ Répondre aux exigences réglementaires (ISO 27001, RGPD) en documentant rigoure
 
 ##  Objectifs d’apprentissage (Pourquoi ce lab ?)
 
- *Espace image – Apprentissage SOC / Blue Team*
+ ![Shema_SOC](Apprentissage_SOC.png)
+
 
 Ce projet constitue un **parcours d’apprentissage complet du métier SOC**.
 
@@ -91,7 +90,7 @@ Développer le réflexe de l’analyste SOC : investigation, corrélation, déci
 
 ##  Architecture globale du SOC
 
- *Espace image – Schéma d’architecture globale du SOC*
+![Shema_SOC](shema_SOC.png)
 
 Le SOC repose sur **quatre piliers fondamentaux** :
 
@@ -103,8 +102,6 @@ Le SOC repose sur **quatre piliers fondamentaux** :
 ---
 
 ##  Composants et justification des choix
-
- *Espace image – Vue globale des composants SOC*
 
 ### 1️⃣ pfSense + Suricata – Détection réseau
 
@@ -202,7 +199,6 @@ Transformation des alertes en incidents exploitables.
 
 ##  Processus SOC en 10 étapes
 
- *Espace image – Diagramme du cycle SOC*
 
 ### Phase 1 – Préparation
 
@@ -230,8 +226,6 @@ Transformation des alertes en incidents exploitables.
 
 ##  Conclusion
 
-Ce projet démontre qu’il est possible de construire un **SOC automatisé, cohérent et professionnel**, basé exclusivement sur des solutions open source.
-
 Il met en avant :
 
 * Une logique métier SOC
@@ -239,4 +233,3 @@ Il met en avant :
 * La réduction de la charge analyste
 * Une amélioration continue de la posture de sécurité
 
-Ce laboratoire constitue une **base solide pour un SOC Analyst / Blue Team**, aussi bien en contexte pédagogique que professionnel.
