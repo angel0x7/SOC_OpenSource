@@ -4,7 +4,7 @@
 
 ##  Objectif et démarche du projet
 
-![Vue générale du lab SOC](SOC_Entreprise.png)
+![Vue générale du lab SOC](images/SOC_Entreprise.png)
 
 L’objectif de ce projet est de **concevoir un SOC (Security Operations Center) réaliste, automatisé et 100 % open source**, proche des architectures utilisées en environnement professionnel.
 
@@ -35,7 +35,7 @@ Chaque outil a été sélectionné pour **son rôle précis dans la chaîne SOC*
 ##  Les enjeux majeurs d’un SOC 
 
 
-![SOC en production / centre opérationnel](vm_SOC.png)
+![SOC en production / centre opérationnel](images/vm_SOC.png)
 
 
 
@@ -65,7 +65,7 @@ Répondre aux exigences réglementaires (ISO 27001, RGPD) en documentant rigoure
 
 ##  Objectifs d’apprentissage (Pourquoi ce lab ?)
 
- ![Shema_SOC](Apprentissage_SOC.png)
+ ![Shema_SOC](images/Apprentissage_SOC.png)
 
 
 Ce projet constitue un **parcours d’apprentissage complet du métier SOC**.
@@ -90,7 +90,7 @@ Développer le réflexe de l’analyste SOC : investigation, corrélation, déci
 
 ##  Architecture globale du SOC
 
-![Shema_SOC](shema_SOC.png)
+![Shema_SOC](images/shema_SOC.png)
 
 Le SOC repose sur **quatre piliers fondamentaux** :
 
