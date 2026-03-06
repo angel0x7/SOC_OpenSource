@@ -26,13 +26,13 @@ Le choix du 100 % open source répond à des enjeux à la fois **techniques, pé
 * Reproduire un SOC réaliste sans dépendance à des solutions propriétaires
 * Comprendre le fonctionnement interne des outils de sécurité
 * Démontrer qu’un SOC efficace peut être construit avec des solutions libres
-* Faciliter la reproductibilité (lab personnel, formation, portfolio)
+* Faciliter la reproductibilité 
 
 Chaque outil a été sélectionné pour **son rôle précis dans la chaîne SOC**, et non pour sa popularité seule.
 
 ---
 
-##  Les enjeux majeurs d’un SOC (Vision professionnelle)
+##  Les enjeux majeurs d’un SOC 
 
 
 ![SOC en production / centre opérationnel](vm_SOC.png)
@@ -226,7 +226,7 @@ Transformation des alertes en incidents exploitables.
 
 ##  Conclusion
 
-Il met en avant :
+On met en avant :
 
 * Une logique métier SOC
 * L’automatisation de la réponse
