@@ -40,3 +40,25 @@ Il est crucial de noter que Cron s'exécute dans un environnement "restreint". C
 
 ---
 
+## 4. Étude de cas : Automatisation d'une sauvegarde locale avec alerte mail
+
+L'implémentation d'une tâche planifiée permet de sécuriser la configuration du pare-feu de manière autonome. Ce scénario repose sur un script shell exécuté quotidiennement à 2h00 du matin, incluant une vérification d'erreur.
+
+### Script de sauvegarde :
+
+```bash 
+#!/bin/sh
+
+
+BACKUP_DIR="/cf/conf/backup"
+TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
+
+/usr/local/bin/pfSense-backup.sh -d "$BACKUP_DIR" -f "config_$TIMESTAMP.xml"
+
+if [ $? -ne 0 ]; then
+  echo "La sauvegarde a échoué !" | mail -s "Alerte : Échec de sauvegarde pfSense" admin@domain.com
+fi
+
+```
+
+
