@@ -65,7 +65,7 @@ Répondre aux exigences réglementaires (ISO 27001, RGPD) en documentant rigoure
 
 ##  Objectifs d’apprentissage (Pourquoi ce lab ?)
 
- ![Shema_SOC](images/Apprentissage_SOC.png)
+ ![Shema_SOC](images/ApprentissageSoc.png)
 
 
 Ce projet constitue un **parcours d’apprentissage complet du métier SOC**.
