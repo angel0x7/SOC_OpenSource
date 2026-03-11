@@ -1,4 +1,4 @@
-#  Projet SOC Automatisé 100 % Open Source
+#  Projet SOC 100 % Open Source
 
 ---
 
