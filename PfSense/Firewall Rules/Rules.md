@@ -218,18 +218,4 @@ Seuls les flux strictement nécessaires au SOC sont autorisés via règles expli
 
 ---
 
-##  Actions prioritaires avant déploiement
 
-```
-CRITIQUE — À faire avant d'appliquer ces règles
-```
-
-- [ ] Assigner une **IP statique** à la VM Kali Linux (ex: `192.168.3.10`)
-- [ ] Assigner une **IP statique** à la VM Windows 10 RH (ex: `192.168.3.20`)
-- [ ] **Supprimer** la règle WAN `TCP / WAN address → LAN address`
-- [ ] **Supprimer** la règle LAN `LAN subnets → * / *` (trop permissive)
-- [ ] **Remplacer** la règle INTNET `INTNET subnets → WAN *` par les règles granulaires
-- [ ] **Remplacer** la règle DMZ `DMZ subnets → WAN *` par HTTPS/HTTP uniquement
-- [ ] Remplacer `Windows_IP` et `Kali_IP` par les vraies IPs statiques dans toutes les règles INTNET
-
----
