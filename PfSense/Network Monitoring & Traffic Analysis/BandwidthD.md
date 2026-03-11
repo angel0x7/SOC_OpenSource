@@ -19,3 +19,4 @@ BandwidthD génère des rapports statistiques montrant l’évolution de la cons
 ![traffic](images/send_receive.png) 
 
 Ces rapports permettent aux administrateurs réseau de mieux comprendre la distribution du trafic et d’optimiser l’utilisation de la bande passante.
+
