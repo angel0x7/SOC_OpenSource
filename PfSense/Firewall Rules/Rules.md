@@ -147,7 +147,7 @@ Seuls les flux strictement nécessaires au SOC sont autorisés via règles expli
 | 4 | ✅ PASS   | `TCP`      | `Windows_IP`         | `*`      | `192.168.2.x` (Wazuh)  | `1515`     | Agent Wazuh Windows → SIEM (enregistrement)         |
 | 5 | ✅ PASS   | `UDP`      | `Windows_IP`         | `*`      | `192.168.3.1`          | `53`       | DNS Windows via pfSense                              |
 | 6 | ✅ PASS   | `TCP`      | `Windows_IP`         | `*`      | `*`                    | `80, 443`  | Windows Update + services Microsoft uniquement       |
-| 7 | ✅ PASS   | `*`        | `Kali_IP`            | `*`      | `Windows_IP`           | `*`        | 🔴 Red Team — Kali attaque Windows (but du lab)     |
+| 7 | ✅ PASS   | `*`        | `Kali_IP`            | `*`      | `Windows_IP`           | `*`        |  Red Team — Kali attaque Windows (but du lab)     |
 | 8 | ❌ BLOCK  | `*`        | `Kali_IP`            | `*`      | `192.168.2.0/24`       | `*`        | **ISOLER Kali de la DMZ (Wazuh protégé)**           |
 | 9 | ❌ BLOCK  | `*`        | `Kali_IP`            | `*`      | `192.168.100.0/24`     | `*`        | **ISOLER Kali du LAN (admin protégé)**              |
 |10 | ❌ BLOCK  | `*`        | `Kali_IP`            | `*`      | `*`                    | `80, 443`  | **BLOQUER Internet depuis Kali**                    |
