@@ -147,7 +147,7 @@ Seuls les flux strictement nécessaires au SOC sont autorisés via règles expli
 | 4 | ✅ PASS   | `TCP`      | `Windows_IP`         | `*`      | `192.168.2.x` (Wazuh)  | `1515`     | Agent Wazuh Windows → SIEM (enregistrement)         |
 | 5 | ✅ PASS   | `UDP`      | `Windows_IP`         | `*`      | `192.168.3.1`          | `53`       | DNS Windows via pfSense                              |
 | 6 | ✅ PASS   | `TCP`      | `Windows_IP`         | `*`      | `*`                    | `80, 443`  | Windows Update + services Microsoft uniquement       |
-| 7 | ✅ PASS   | `*`        | `Kali_IP`            | `*`      | `Windows_IP`           | `*`        | 🔴 Red Team — Kali attaque Windows (but du lab)     |
+| 7 | ✅ PASS   | `*`        | `Kali_IP`            | `*`      | `Windows_IP`           | `*`        |  Red Team — Kali attaque Windows (but du lab)     |
 | 8 | ❌ BLOCK  | `*`        | `Kali_IP`            | `*`      | `192.168.2.0/24`       | `*`        | **ISOLER Kali de la DMZ (Wazuh protégé)**           |
 | 9 | ❌ BLOCK  | `*`        | `Kali_IP`            | `*`      | `192.168.100.0/24`     | `*`        | **ISOLER Kali du LAN (admin protégé)**              |
 |10 | ❌ BLOCK  | `*`        | `Kali_IP`            | `*`      | `*`                    | `80, 443`  | **BLOQUER Internet depuis Kali**                    |
@@ -218,18 +218,4 @@ Seuls les flux strictement nécessaires au SOC sont autorisés via règles expli
 
 ---
 
-##  Actions prioritaires avant déploiement
 
-```
-CRITIQUE — À faire avant d'appliquer ces règles
-```
-
-- [ ] Assigner une **IP statique** à la VM Kali Linux (ex: `192.168.3.10`)
-- [ ] Assigner une **IP statique** à la VM Windows 10 RH (ex: `192.168.3.20`)
-- [ ] **Supprimer** la règle WAN `TCP / WAN address → LAN address`
-- [ ] **Supprimer** la règle LAN `LAN subnets → * / *` (trop permissive)
-- [ ] **Remplacer** la règle INTNET `INTNET subnets → WAN *` par les règles granulaires
-- [ ] **Remplacer** la règle DMZ `DMZ subnets → WAN *` par HTTPS/HTTP uniquement
-- [ ] Remplacer `Windows_IP` et `Kali_IP` par les vraies IPs statiques dans toutes les règles INTNET
-
----
