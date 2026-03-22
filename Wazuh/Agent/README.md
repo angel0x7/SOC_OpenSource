@@ -20,7 +20,7 @@
 
 ## Introduction {#introduction}
 
-### Qu'est-ce qu'un Agent Wazuh?
+### Qu'est-ce qu'un Agent Wazuh? 
 
 Un **agent Wazuh** est un composant léger et distribué qui s'exécute sur les endpoints (serveurs, postes de travail, appareils IoT) pour:
 
