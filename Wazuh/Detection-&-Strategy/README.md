@@ -2,10 +2,6 @@
 
 **Stratégie de détection multi-couches pour environnement Linux/Windows**
 
-![Status](https://img.shields.io/badge/Status-Production%20Ready-green)
-![Wazuh](https://img.shields.io/badge/Wazuh-4.x-blue)
-![MITRE](https://img.shields.io/badge/MITRE%20ATT%26CK-Mapped-orange)
-
 ---
 
 ##  Table des Matières
