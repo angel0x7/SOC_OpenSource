@@ -1,0 +1,142 @@
+<group name="custom_rules">
+
+  <group name="ssh,brute_force,authentication_failed">
+
+    <rule id="100001" level="0">
+      <decoded_as>custom_ssh_failed</decoded_as>
+      <description>SSH failed login grouping</description>
+    </rule>
+
+    <rule id="100002" level="3">
+      <if_sid>100001</if_sid>
+      <description>SSH failed login $(user) from $(srcip)</description>
+      <mitre><id>T1110</id></mitre>
+    </rule>
+
+    <rule id="100003" level="6">
+      <decoded_as>custom_ssh_invalid_user</decoded_as>
+      <description>SSH invalid user $(user) from $(srcip)</description>
+      <mitre><id>T1110.001</id></mitre>
+    </rule>
+
+    <rule id="100004" level="10" frequency="10" timeframe="600">
+      <if_matched_sid>100002</if_matched_sid>
+      <same_srcip/>
+      <description>SSH brute force from $(srcip)</description>
+      <mitre><id>T1110.001</id></mitre>
+    </rule>
+
+    <rule id="100005" level="12" frequency="20" timeframe="300">
+      <if_matched_sid>100002</if_matched_sid>
+      <description>Distributed SSH brute force</description>
+      <mitre><id>T1110.003</id></mitre>
+    </rule>
+
+    <rule id="100006" level="13" timeframe="300">
+      <if_sid>100004, 100002</if_sid> <same_srcip/>
+      <description>SSH compromise suspected $(srcip)</description>
+      <mitre>
+        <id>T1110</id>
+        <id>T1078</id>
+      </mitre>
+    </rule>
+
+  </group>
+
+  <group name="sudo,privilege_escalation">
+
+    <rule id="100020" level="0">
+      <decoded_as>custom_sudo_command</decoded_as>
+      <description>Sudo command grouping</description>
+    </rule>
+
+    <rule id="100021" level="4">
+      <if_sid>100020</if_sid>
+      <field name="dstuser">root</field>
+      <description>Sudo to root by $(user)</description>
+      <mitre><id>T1548.003</id></mitre>
+    </rule>
+
+    <rule id="100022" level="10">
+      <if_sid>100020</if_sid>
+      <field name="dstuser">root</field>
+      <match>bash|chmod|chown|dd |mkfs|rm -rf|passwd|shadow</match>
+      <description>Dangerous sudo command $(extra_data)</description>
+      <mitre><id>T1548.003</id></mitre>
+    </rule>
+
+    <rule id="100023" level="8" frequency="5" timeframe="300">
+      <decoded_as>custom_sudo_failed</decoded_as>
+      <same_user/>
+      <description>Multiple sudo failures $(user)</description>
+      <mitre><id>T1548</id></mitre>
+    </rule>
+
+    <rule id="100024" level="9">
+      <if_sid>100021</if_sid>
+      <time>00:00-06:00</time>
+      <description>After-hours sudo usage $(user)</description>
+      <mitre><id>T1548.003</id></mitre>
+    </rule>
+
+  </group>
+
+  <group name="exfiltration,data_exfiltration">
+
+    <rule id="100040" level="7">
+      <decoded_as>custom_exfil_tool</decoded_as>
+      <description>Exfiltration tool used $(extra_data)</description>
+      <mitre><id>T1048</id></mitre>
+    </rule>
+
+    <rule id="100041" level="9">
+      <if_sid>100040</if_sid>
+      <description>External data transfer suspected via $(extra_data)</description>
+      <mitre><id>T1041</id></mitre>
+    </rule>
+
+    <rule id="100042" level="10" frequency="50" timeframe="60">
+      <if_matched_sid>100041</if_matched_sid>
+      <description>High volume data transfer detected</description>
+      <mitre>
+        <id>T1041</id>
+        <id>T1567</id>
+      </mitre>
+    </rule>
+
+  </group>
+
+  <group name="web,attack">
+
+    <rule id="100100" level="0">
+      <decoded_as>custom_web_access</decoded_as>
+      <description>Web access grouping</description>
+    </rule>
+
+    <rule id="100101" level="6" frequency="20" timeframe="60">
+      <if_matched_sid>100100</if_matched_sid>
+      <field name="id">404</field>
+      <same_srcip/>
+      <description>Web directory scan (Multiple 404s)</description>
+      <mitre><id>T1595.003</id></mitre>
+    </rule>
+
+  </group>
+
+  <group name="kill_chain">
+
+    <rule id="100120" level="14" timeframe="600">
+      <if_matched_sid>100004</if_matched_sid>
+      <if_matched_sid>100061</if_matched_sid>
+      <description>Kill chain detected (SSH Brute Force + Temp Execution)</description>
+    </rule>
+
+    <rule id="100121" level="15" timeframe="600">
+      <if_matched_sid>100022</if_matched_sid>
+      <if_matched_sid>100041</if_matched_sid>
+      <description>Privilege escalation + exfiltration</description>
+    </rule>
+
+  </group>
+
+</group>
