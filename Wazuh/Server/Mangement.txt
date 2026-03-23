@@ -1,0 +1,313 @@
+Configuration Wazuh Server - Guide Texte Pur
+FICHIER DE CONFIGURATION PRINCIPAL
+Le fichier à éditer est situé à:
+/var/ossec/etc/ossec.conf
+
+1. ALERT MANAGEMENT - CONFIGURATION
+Ouvrir le fichier:
+sudo nano /var/ossec/etc/ossec.conf
+Chercher la section <alerts> et la remplacer par:
+<alerts>
+  <log_alert_level>3</log_alert_level>
+  <email_alert_level>7</email_alert_level>
+</alerts>
+EXPLICATION:
+
+log_alert_level=3 : Enregistre tous les événements de niveau 3 et plus
+email_alert_level=7 : Envoie email seulement pour niveau 7 et plus
+
+Pour machine critique, utiliser:
+<alerts>
+  <log_alert_level>2</log_alert_level>
+  <email_alert_level>5</email_alert_level>
+</alerts>
+
+2. INDEXER INTEGRATION - CONFIGURATION
+Dans le même fichier ossec.conf, chercher ou ajouter la section <indexer>:
+<indexer>
+  <enabled>yes</enabled>
+  <hosts>
+    <host>https://192.168.1.100:9200</host>
+  </hosts>
+  <ssl>
+    <certificate_authorities>
+      <ca>/etc/filebeat/certs/ca.pem</ca>
+    </certificate_authorities>
+    <certificate>/etc/filebeat/certs/filebeat.pem</certificate>
+    <key>/etc/filebeat/certs/filebeat-key.pem</key>
+  </ssl>
+</indexer>
+IMPORTANT: Remplacer 192.168.1.100 par l'IP REELLE de votre serveur Indexer.
+Si Manager et Indexer sur MEME machine:
+<host>https://127.0.0.1:9200</host>
+
+3. EMAIL CONFIGURATION - OPTIONNEL
+Chercher ou ajouter la section <email_alerts>:
+<email_alerts>
+  <email_notification>yes</email_notification>
+  <smtp_server>localhost</smtp_server>
+  <from>wazuh-alerts@votre-domaine.fr</from>
+  <to>admin@votre-domaine.fr</to>
+</email_alerts>
+ADAPTATIONS POSSIBLES:
+Pour Gmail:
+<smtp_server>smtp.gmail.com</smtp_server>
+<smtp_port>587</smtp_port>
+Pour Outlook:
+<smtp_server>smtp-mail.outlook.com</smtp_server>
+<smtp_port>587</smtp_port>
+Pour serveur local:
+<smtp_server>localhost</smtp_server>
+<smtp_port>25</smtp_port>
+
+4. REMOTE CONFIGURATION - CONNEXION AGENTS
+Chercher la section <remote> et vérifier:
+<remote>
+  <connection>secure</connection>
+  <protocol>tcp</protocol>
+  <port>1514</port>
+  <queue_size>131072</queue_size>
+</remote>
+C'est la configuration pour que les agents se connectent au Manager.
+Port 1514 est le port standard (ne pas modifier sauf si conflit).
+
+5. GLOBAL CONFIGURATION - PARAMETRES GENERAUX
+Chercher la section <global> et configurer:
+<global>
+  <email_notification>no</email_notification>
+  <email_from>wazuh-alerts@votre-domaine.fr</email_from>
+  <smtp_server>localhost</smtp_server>
+  <agent_disconnection_time>10m</agent_disconnection_time>
+  <agents_disconnection_alert_time>0</agents_disconnection_alert_time>
+  <status_file>/var/ossec/var/wazuh-status.json</status_file>
+</global>
+PARAMETRES IMPORTANTS:
+
+agent_disconnection_time : Temps avant de marquer agent comme offline (10m standard)
+email_from : Adresse source des emails
+
+
+6. AUTH CONFIGURATION - AUTHENTIFICATION AGENTS
+Chercher la section <auth> et configurer:
+<auth>
+  <disabled>no</disabled>
+  <port>1515</port>
+  <use_source_ip>yes</use_source_ip>
+  <force_insert>no</force_insert>
+  <force_overwrite>no</force_overwrite>
+  <purge>yes</purge>
+  <use_password>no</use_password>
+  <limit_maxagents>300</limit_maxagents>
+  <ciphers>HIGH:!aNULL:!MD5</ciphers>
+  <ssl_verify_mode>verify_peer</ssl_verify_mode>
+  <ssl_certificate>/etc/filebeat/certs/server.crt</ssl_certificate>
+  <ssl_key>/etc/filebeat/certs/server.key</ssl_key>
+  <ssl_auto_negotiate>yes</ssl_auto_negotiate>
+</auth>
+PARAMETRES IMPORTANTS:
+
+port=1515 : Port pour enregistrement des agents (ne pas modifier)
+limit_maxagents=300 : Nombre maximum d'agents acceptés
+use_password=no : Utiliser authentification par certificat (sécurisé)
+
+
+7. SYSCHECK CONFIGURATION - MONITORING LOCAL
+Le Manager fait aussi du monitoring local. Chercher <syscheck>:
+<syscheck>
+  <frequency>3600</frequency>
+  <directories check_all="yes" check_sum="yes">/etc</directories>
+  <directories check_all="yes">/bin,/sbin</directories>
+  <directories check_all="yes">/home</directories>
+  <directories check_all="yes">/root</directories>
+  <ignore>/etc/mtab</ignore>
+  <ignore>/etc/resolv.conf</ignore>
+  <ignore type="sregex">^/proc</ignore>
+  <ignore type="sregex">^/sys</ignore>
+  <realtime>
+    <directory>/etc</directory>
+    <directory>/home</directory>
+  </realtime>
+</syscheck>
+
+8. ROOTCHECK CONFIGURATION - DETECTION ROOTKITS
+Chercher <rootcheck>:
+<rootcheck>
+  <frequency>43200</frequency>
+  <skip_nfs>yes</skip_nfs>
+  <skip_dev>yes</skip_dev>
+  <skip_proc>yes</skip_proc>
+  <skip_sys>yes</skip_sys>
+</rootcheck>
+PARAMETRES:
+
+frequency=43200 : Vérifie tous les 12 heures
+skip_nfs/dev/proc/sys=yes : Ignore ces systemes de fichiers
+
+
+9. VULNERABILITY DETECTION
+Chercher ou ajouter <vulnerability-detection>:
+<vulnerability-detection>
+  <enabled>yes</enabled>
+  <feed>ubuntu</feed>
+  <feed>debian</feed>
+  <feed>redhat</feed>
+  <feed>nvd</feed>
+  <run_on_start>yes</run_on_start>
+</vulnerability-detection>
+Détecte les logiciels vulnérables installés sur les agents.
+
+10. ACTIVE RESPONSE - ACTIONS AUTOMATIQUES
+Chercher ou ajouter <active-response>:
+<active-response>
+  <disabled>no</disabled>
+  <ca_store>/etc/filebeat/certs/ca.pem</ca_store>
+  <ca_verification>yes</ca_verification>
+</active-response>
+Permet aux agents de recevoir des commandes du Manager (optionnel).
+
+11. LOCALFILE - MONITORING DES LOGS
+Le Manager peut aussi monitorer ses propres logs. Chercher <localfile>:
+<localfile>
+  <log_format>syslog</log_format>
+  <location>/var/log/auth.log</location>
+</localfile>
+
+<localfile>
+  <log_format>syslog</log_format>
+  <location>/var/log/syslog</location>
+</localfile>
+
+<localfile>
+  <log_format>syslog</log_format>
+  <location>/var/log/sudo.log</location>
+</localfile>
+
+12. RULESET - REGLES PERSONNALISEES
+Chercher ou ajouter <ruleset>:
+<ruleset>
+  <decoder>decoders/local_decoders.xml</decoder>
+  <rule>rules/local_rules.xml</rule>
+  <rule>rules/local_rules2.xml</rule>
+  <list>etc/lists/custom_list</list>
+</ruleset>
+Pour utiliser vos propres règles et décodeurs.
+
+ETAPES DE VALIDATION
+Après chaque modification:
+
+Sauvegarder le fichier (Ctrl+O, Enter, Ctrl+X dans nano)
+Valider la syntaxe:
+
+sudo /var/ossec/bin/wazuh-control -t
+Doit afficher: "OK: ossec.conf syntax is valid"
+
+Redémarrer le service:
+
+sudo systemctl restart wazuh-manager
+
+Vérifier que tout démarre:
+
+sudo systemctl status wazuh-manager
+
+Vérifier les logs pour erreurs:
+
+sudo tail -20 /var/ossec/logs/ossec.log
+
+COMMANDES DE GESTION MANAGER
+Lister tous les agents connectés:
+sudo /var/ossec/bin/agent_control -l
+Voir détails d'un agent spécifique (ID 001):
+sudo /var/ossec/bin/agent_control -i 001
+Voir les alertes en temps réel:
+sudo tail -f /var/ossec/logs/alerts/alerts.json
+Voir alertes filtrées par agent:
+sudo grep '"id":"001"' /var/ossec/logs/alerts/alerts.json
+Redémarrer les services:
+sudo /var/ossec/bin/wazuh-control restart
+Voir status de tous les démons:
+sudo /var/ossec/bin/wazuh-control -i
+Voir statistiques:
+sudo /var/ossec/bin/wazuh-control -s
+Extraire la clé d'un agent (ID 001):
+sudo /var/ossec/bin/manage_agents -e 001
+
+NIVEAUX D'ALERTE - REFERENCE
+Niveau 1-2: Bruit (fichier temp, test) - Généralement ignoré
+Niveau 3-4: Événement important (modification fichier, connexion perdue)
+Niveau 5-6: Anomalie (scan de port, activité suspecte)
+Niveau 7-8: Alerte importante (brute-force, intrusion)
+Niveau 9-15: Critique (malware, compromise système)
+Niveau 16: Danger extrême (menace immédiate)
+
+CONFIGURATION RECOMMANDEE POUR PRODUCTION
+Pour serveur standard:
+<alerts>
+  <log_alert_level>3</log_alert_level>
+  <email_alert_level>7</email_alert_level>
+</alerts>
+
+<email_alerts>
+  <email_notification>yes</email_notification>
+  <smtp_server>localhost</smtp_server>
+  <from>wazuh-alerts@company.fr</from>
+  <to>security-team@company.fr</to>
+</email_alerts>
+
+<indexer>
+  <enabled>yes</enabled>
+  <hosts>
+    <host>https://192.168.1.100:9200</host>
+  </hosts>
+  <ssl>
+    <certificate_authorities>
+      <ca>/etc/filebeat/certs/ca.pem</ca>
+    </certificate_authorities>
+    <certificate>/etc/filebeat/certs/filebeat.pem</certificate>
+    <key>/etc/filebeat/certs/filebeat-key.pem</key>
+  </ssl>
+</indexer>
+Pour machine critique (database, file server):
+<alerts>
+  <log_alert_level>2</log_alert_level>
+  <email_alert_level>5</email_alert_level>
+</alerts>
+
+CHOSES A NE PAS MODIFIER
+Port 1514 (connexion agents) - Standard et ne devrait pas changer
+Port 1515 (authentification agents) - Standard
+Port 514 (syslog) - Ne modifier que si conflit
+Les chemins des certificats SSL - Ils sont générés lors de l'installation
+Les noms des démons - Critique pour le fonctionnement
+
+SAUVEGARDER LA CONFIGURATION
+Avant toute modification importante:
+sudo cp /var/ossec/etc/ossec.conf /var/ossec/etc/ossec.conf.backup
+Si problème, restaurer:
+sudo cp /var/ossec/etc/ossec.conf.backup /var/ossec/etc/ossec.conf
+
+VERIFIER QUE TOUT FONCTIONNE
+
+Vérifier les agents connectés:
+
+sudo /var/ossec/bin/agent_control -l
+Tous les agents doivent être en statut "Active"
+
+Vérifier que des alertes sont générées:
+
+sudo tail -10 /var/ossec/logs/alerts/alerts.json
+Doit afficher des alertes en JSON
+
+Vérifier la connexion à l'Indexer:
+
+curl -k https://192.168.1.100:9200/
+Doit répondre avec les infos du serveur
+
+Vérifier les logs pour erreurs:
+
+sudo grep -i "error" /var/ossec/logs/ossec.log
+Ne doit pas avoir d'erreurs critiques
+
+Accéder au Dashboard:
+
+https://192.168.1.100:443
+Les alertes doivent être visibles
