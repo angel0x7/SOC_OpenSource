@@ -509,8 +509,3 @@ Vérifier régulièrement:
 - Maintenir les sauvegardes
 - Vérifier la compatibilité des agents
 
----
-
-**Dernière mise à jour**: Mars 2026  
-**Version Wazuh**: Configuration complète Threat Intelligence  
-**Statut**: Production
