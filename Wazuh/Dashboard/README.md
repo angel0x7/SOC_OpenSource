@@ -408,7 +408,7 @@ http.maxHeaderSize: "8kb"
 - Détection d'anomalies long-terme
 - Documentation de conformité
 
-### 3. Exploitation des Visualisations
+### 3. Exploitation des Visualisations  
 
 **Routine quotidienne :**
 1.  **Matin :** Consulter *SOC - Overview* (alertes nuit)
