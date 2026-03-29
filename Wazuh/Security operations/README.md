@@ -1057,16 +1057,4 @@ Processus démarrés au cours de la période :
 - [NIST 800-53](https://csrc.nist.gov/publications/detail/sp/800-53)
 - [TSC Framework](https://www.aicpa.org/tsc)
 
-### Support
 
-- Wazuh Community Forum
-- Certified Consultants
-- Professional Services
-- Training Programs
-
----
-
-**Dernière mise à jour**: Mars 2026  
-**Version**: 2.0 - Compliance Complete  
-**Statut**: Production - Tous les frameworks actifs  
-**Maintenance**: Mensuelle
