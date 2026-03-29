@@ -1,0 +1,90 @@
+
+# SERVEUR DE BASE
+server.host: "0.0.0.0"
+server.port: 443
+server.basePath: "/app/wazuh"
+server.name: "wazuh-dashboard"
+
+#  CONNEXION OPENSEARCH
+opensearch.hosts: ["https://127.0.0.1:9200"]
+opensearch.username: "kibanaserver"
+opensearch.password: "${OPENSEARCH_PASSWORD}"
+opensearch.requestTimeout: 40000
+opensearch.shardTimeout: 30000
+opensearch.initialConnectionTimeout: 5000
+opensearch.maxSockets: 1000
+opensearch.maxRetries: 3
+opensearch.compression: true
+
+#  SSL/TLS CLIENT (Dashboard -> OpenSearch)
+opensearch.ssl.verificationMode: "full"
+opensearch.ssl.enabled: true
+opensearch.ssl.key: "/etc/wazuh-dashboard/certs/wazuh-dashboard-key.pem"
+opensearch.ssl.certificate: "/etc/wazuh-dashboard/certs/wazuh-dashboard.pem"
+opensearch.ssl.certificateAuthorities: ["/etc/wazuh-dashboard/certs/root-ca.pem"]
+opensearch.ssl.alwaysPresentCertificate: true
+opensearch.ssl.rejectUnauthorized: true
+
+#  SSL/TLS SERVEUR (Client -> Dashboard)
+server.ssl.enabled: true
+server.ssl.key: "/etc/wazuh-dashboard/certs/wazuh-dashboard-key.pem"
+server.ssl.certificate: "/etc/wazuh-dashboard/certs/wazuh-dashboard.pem"
+
+# AUTHENTIFICATION
+opensearch.security.enabled: true
+opensearch.requestHeadersAllowlist: ["securitytenant", "Authorization"]
+opensearch.security.multitenancy.enabled: false
+opensearch.security.readonly_mode.roles: ["kibana_read_only"]
+
+# COOKIES ET SESSIONS
+opensearch.security.cookie.secure: true
+opensearch.security.cookie.httpOnly: true
+opensearch.security.cookie.sameSite: "Strict"
+opensearch.security.cookie.name: "wazuh_session_id"
+opensearch.security.session.ttl: 900000
+opensearch.security.session.keepalive: true
+opensearch.security.session.keepaliveInterval: 300000
+
+# HEADERS DE SECURITE HTTP
+server.customResponseHeaders:
+  "X-Content-Type-Options": "nosniff"
+  "X-Frame-Options": "DENY"
+  "X-XSS-Protection": "1; mode=block"
+  "Strict-Transport-Security": "max-age=31536000; includeSubDomains"
+  "Referrer-Policy": "strict-origin-when-cross-origin"
+  "Permissions-Policy": "geolocation=(), microphone=(), camera=()"
+  "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:"
+
+# AUDIT LOGGING
+opensearch.audit.enabled: true
+opensearch.audit.appender:
+  type: "file"
+  fileName: "/var/log/wazuh-dashboard/audit.log"
+
+opensearch.audit.rotation:
+  enabled: true
+  max_file_size: "100MB"
+  backup_count: 7
+
+# LOGGING
+logging.level: "info"
+logging.appenders.default:
+  type: "console"
+
+# HTTP COMPRESSION
+http.compression: true
+http.compression.level: 6
+http.keepaliveTimeout: 120000
+http.maxHeaderSize: "8kb"
+
+# CONFIGURATION WAZUH
+wazuh.enabled: true
+wazuh.cacheSize: 500
+wazuh.cacheTTL: 3600
+wazuh.alerts.sample: 1000
+wazuh.monitoring.enabled: true
+wazuh.monitoring.frequency: 3600
+
+# SINTERFACE
+uiSettings.overrides.defaultRoute: "/app/wazuh-home"
+opensearch.defaultAppId: "wazuh-home"
