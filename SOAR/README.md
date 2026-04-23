@@ -333,7 +333,6 @@ sudo /var/ossec/bin/wazuh-control status
 tail -f /var/ossec/logs/integrations.log
 ```
 
-![alt text](images/wazuh.png)
 
 ### Étape 2 : Configuration Shuffle
 
