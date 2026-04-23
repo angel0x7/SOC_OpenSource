@@ -92,8 +92,6 @@ Alerte Wazuh → Enrichissement Cortex → Création de Cas TheHive → Notifica
 
 ### Architecture du Projet SOC
 
-![ApprentissageSoc](./images/ApprentissageSoc.png)
-*Figure 2 : Parcours d'apprentissage SOC et cycle de réponse aux incidents*
 
 Le projet SOC se divise en **4 phases** :
 
