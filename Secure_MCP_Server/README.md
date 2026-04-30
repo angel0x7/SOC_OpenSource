@@ -1,4 +1,4 @@
-# MCP Server Wazuh - Ingégration & Séecurité
+# MCP Server Wazuh - Intégration & Sécurité
 
 
 ---
