@@ -1,4 +1,4 @@
-# MCP Server for Wazuh - Security Hardening & Integration Guide
+# MCP Server Wazuh - Ingégration & Séecurité
 
 
 ---
